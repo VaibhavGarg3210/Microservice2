@@ -1,0 +1,59 @@
+services:
+  configserver:
+   image: "learn/configserver:microservices"
+   container_name: configserver-ms
+   ports:
+    - "8071:8071"
+   deploy:
+    resources:
+     limits:
+      memory: 500m
+   networks:
+    - learn
+  eurekaserver:
+   image: "learn/eurekaserver:microservices"
+   container_name: eurekaserver-ms
+   ports:
+    - "8761:8761"
+   deploy:
+    resources:
+     limits:
+      memory: 500m
+   networks:
+    - learn
+  accounts:
+   image: "learn/accounts:microservices"
+   container_name: account-ms
+   ports:
+    - "8080:8080"
+   deploy:
+    resources:
+     limits:
+      memory: 500m
+   networks:
+    - learn
+  loans:
+   image: "learn/loans:microservices"
+   container_name: loans-ms
+   ports:
+    - "8090:8090"
+   deploy:
+    resources:
+     limits:
+      memory: 500m
+   networks:
+    - learn
+  cards:
+   image: "learn/cards:microservices"
+   container_name: cards-ms
+   ports:
+    - "9000:9000"
+   deploy:
+    resources:
+     limits:
+      memory: 500m
+   networks:
+    - learn
+networks:
+ learn:
+  driver: "bridge"
