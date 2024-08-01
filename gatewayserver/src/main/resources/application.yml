@@ -25,9 +25,12 @@ management:
       enabled: true
 
 logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.boot.actuate: DEBUG
+ level:
+  com:
+   learn:
+    gatewayserver: DEBUG
+  org.springframework.cloud.gateway: DEBUG
+  org.springframework.boot.actuate: DEBUG
 
 build:
   version: 1
@@ -46,3 +49,4 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+

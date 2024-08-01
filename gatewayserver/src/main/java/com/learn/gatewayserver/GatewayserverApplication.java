@@ -1,5 +1,7 @@
 package com.learn.gatewayserver;
 
+import java.time.LocalDateTime;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -17,7 +19,8 @@ public class GatewayserverApplication {
 	public RouteLocator learnBankRoute(RouteLocatorBuilder routeLocator) {
 		return routeLocator.routes()
 				.route(p -> p.path("/learn/accounts/**")
-						.filters(f -> f.rewritePath("/learn/accounts/(?<segment>.*)", "/${segment}"))
+						.filters(f -> f.rewritePath("/learn/accounts/(?<segment>.*)", "/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://ACCOUNTS"))
 				.route(p -> p.path("/learn/cards/**")
 						.filters(f -> f.rewritePath("/learn/cards/(?<segment>.*)", "/${segment}")).uri("lb://CARDS"))
