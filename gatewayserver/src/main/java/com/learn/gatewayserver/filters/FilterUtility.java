@@ -3,8 +3,10 @@ package com.learn.gatewayserver.filters;
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+@Component
 public class FilterUtility {
 
 	public static final String CORRELATION_ID = "learn-correclation-id";

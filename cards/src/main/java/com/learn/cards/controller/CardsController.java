@@ -1,5 +1,31 @@
 package com.learn.cards.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.learn.cards.constants.CardsConstants;
+import com.learn.cards.dto.CardsContactInfoDto;
+import com.learn.cards.dto.CardsDto;
+import com.learn.cards.dto.ErrorResponseDto;
+import com.learn.cards.dto.ResponseDto;
+import com.learn.cards.service.ICardsService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,22 +34,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import com.learn.cards.constants.CardsConstants;
-import com.learn.cards.dto.CardsContactInfoDto;
-import com.learn.cards.dto.CardsDto;
-import com.learn.cards.dto.ErrorResponseDto;
-import com.learn.cards.dto.ResponseDto;
-import com.learn.cards.service.ICardsService;
 
 /**
  * @author Eazy Bytes
@@ -39,6 +49,7 @@ import com.learn.cards.service.ICardsService;
 public class CardsController {
 
     private ICardsService iCardsService;
+    private static final Logger logger = LoggerFactory.getLogger(CardsController.class);
 
     public CardsController(ICardsService iCardsService) {
         this.iCardsService = iCardsService;
@@ -99,10 +110,11 @@ public class CardsController {
             )
     })
     @GetMapping("/fetch")
-    public ResponseEntity<CardsDto> fetchCardDetails(@RequestParam
+    public ResponseEntity<CardsDto> fetchCardDetails(@RequestHeader("learn-correclation-id") String correlation,@RequestParam
                                                                @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                                String mobileNumber) {
-        CardsDto cardsDto = iCardsService.fetchCard(mobileNumber);
+    	logger.debug("correlation_id found in RequestTraceFilter :{}", correlation);
+    	CardsDto cardsDto = iCardsService.fetchCard(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
 

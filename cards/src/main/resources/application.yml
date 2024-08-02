@@ -6,7 +6,8 @@ spring:
   profiles:
     active: "prod"
   datasource:
-    url: jdbc:mysql://192.168.1.34:3306/carddb 
+#    url: jdbc:mysql://192.168.1.34:3306/carddb 
+    url: jdbc:mysql://localhost:3306/carddb
     username: root
     password: MyNabour1s!
   jpa:
@@ -32,6 +33,9 @@ management:
         include: "*"
     shutdown:
       enabled: true
+  health:
+    readiness-state:
+      enabled: true
   info:
    env:
     enabled: true
@@ -39,6 +43,9 @@ management:
   endpoint:
    shutdown:
     enabled: true
+   health:
+    readiness-state:
+      enabled: true
         
 build:
  version: 1

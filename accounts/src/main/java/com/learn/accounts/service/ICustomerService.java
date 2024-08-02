@@ -7,6 +7,6 @@ import com.learn.accounts.dto.CustomerDetailsDto;
 @Service
 public interface ICustomerService {
 	
-	CustomerDetailsDto fetchCustomerDetails(String mobileNumber);
+	CustomerDetailsDto fetchCustomerDetails(String correlation, String mobileNumber);
 
 }

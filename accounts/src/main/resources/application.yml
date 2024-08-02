@@ -8,7 +8,8 @@ spring:
  profiles:
   active: "prod"
  datasource:
-  url: jdbc:mysql://192.168.1.34:3306/accountsdb 
+#  url: jdbc:mysql://192.168.1.34:3306/accountsdb
+  url: jdbc:mysql://localhost:3306/accountsdb 
   username: root
   password: MyNabour1s!
  jpa:
@@ -35,6 +36,9 @@ management:
         include: "*"
     shutdown:
       enabled: true
+  health:
+    readiness-state:
+      enabled: true
   info:
    env:
     enabled: true
@@ -42,6 +46,9 @@ management:
   endpoint:
    shutdown:
     enabled: true
+   health:
+    readiness-state:
+      enabled: true
     
 endpoints:
  shutdown:
@@ -51,3 +58,9 @@ info:
   name: "accounts"
   description: "Learning Account"
   version: 1.0
+
+logging:
+ level:
+  com:
+   learn:
+    accounts: DEBUG
