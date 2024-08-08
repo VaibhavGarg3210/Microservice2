@@ -10,8 +10,15 @@ import lombok.Data;
 )
 @Data @AllArgsConstructor
 public class ResponseDto {
+	
 
-    @Schema(
+    public ResponseDto(String statusCode, String statusMsg) {
+		super();
+		this.statusCode = statusCode;
+		this.statusMsg = statusMsg;
+	}
+
+	@Schema(
             description = "Status code in the response"
     )
     private String statusCode;

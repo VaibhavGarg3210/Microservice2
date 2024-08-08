@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.learn.accounts.dto.LoansDto;
 
-@FeignClient("loans") // when eureka register carts get instance details
+@FeignClient(name = "loans",fallback = LoansFallback.class) // when eureka register carts get instance details
 public interface LoanFeignClient {
 
 	@GetMapping(value = "/api/fetch", consumes = "application/json")

@@ -46,7 +46,57 @@ public class CustomerDetailsDto {
 	    @Schema(
 	            description = "Cards details of the Customer"
 	    )
-	    private CardsDto cardsDto;	
+	    private CardsDto cardsDto;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getMobileNumber() {
+			return mobileNumber;
+		}
+
+		public void setMobileNumber(String mobileNumber) {
+			this.mobileNumber = mobileNumber;
+		}
+
+		public AccountsDto getAccountsDto() {
+			return accountsDto;
+		}
+
+		public void setAccountsDto(AccountsDto accountsDto) {
+			this.accountsDto = accountsDto;
+		}
+
+		public LoansDto getLoansDto() {
+			return loansDto;
+		}
+
+		public void setLoansDto(LoansDto loansDto) {
+			this.loansDto = loansDto;
+		}
+
+		public CardsDto getCardsDto() {
+			return cardsDto;
+		}
+
+		public void setCardsDto(CardsDto cardsDto) {
+			this.cardsDto = cardsDto;
+		}
+	    
+	    
 
 
 }
