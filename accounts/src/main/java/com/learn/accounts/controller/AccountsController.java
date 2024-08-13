@@ -1,5 +1,31 @@
 package com.learn.accounts.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.learn.accounts.constants.AccountsConstants;
+import com.learn.accounts.dto.AccountsContactInfoDto;
+import com.learn.accounts.dto.CustomerDto;
+import com.learn.accounts.dto.ErrorResponseDto;
+import com.learn.accounts.dto.ResponseDto;
+import com.learn.accounts.service.IAccountsService;
+
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,21 +34,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import com.learn.accounts.constants.AccountsConstants;
-import com.learn.accounts.dto.AccountsContactInfoDto;
-import com.learn.accounts.dto.CustomerDto;
-import com.learn.accounts.dto.ErrorResponseDto;
-import com.learn.accounts.dto.ResponseDto;
-import com.learn.accounts.service.IAccountsService;
 
 /**
  * @author Eazy Bytes
@@ -35,6 +46,7 @@ import com.learn.accounts.service.IAccountsService;
 public class AccountsController {
 
 	private final IAccountsService iAccountsService;
+	 private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
 
 	public AccountsController(IAccountsService iAccountsService) {
 		this.iAccountsService = iAccountsService;
@@ -105,9 +117,17 @@ public class AccountsController {
 	@Operation(summary = "Get Build information", description = "Get Build information that is deployed into accounts microservice")
 	@ApiResponses({ @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
 			@ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))) })
-	@GetMapping("/build-info")
+	@GetMapping("/build-info")	
+	@Retry(name = "getBuildInfo",fallbackMethod = "getBuildInfoFallback")
 	public ResponseEntity<String> getBuildInfo() {
-		return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+		logger.info("Start Of getBuildInfo");
+		throw new NullPointerException();
+		//return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+	}
+	
+	public ResponseEntity<String> getBuildInfoFallback(Exception throwable) {
+		logger.info("Start Of getBuildgetBuildInfoFallbackInfo");
+		return ResponseEntity.status(HttpStatus.OK).body("0.9");
 	}
 
 	@Operation(summary = "Get Java version", description = "Get Java versions details that is installed into accounts microservice")
