@@ -1,6 +1,12 @@
 server:
   port: 8072
 spring:
+  data:
+    redis:
+     connection-timeout: 2s
+     host: localhost
+     port: 6379
+     timout: 1s 
   application:
     name: gatewayserver
   config:
@@ -60,4 +66,5 @@ resilience4j.circuitbreaker:
    permittedNumberOfCallsInHalfOpenState: 2
    failureRateThreshold: 50
    waitDurationInOpenState: 10000
+
   
